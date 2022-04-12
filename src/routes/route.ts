@@ -1,7 +1,19 @@
 import { Router } from 'express';
+import MongoController from '../controllers/MongoController';
 
-const router = Router();
+class CustomRouter<T> {
+  public router: Router;
 
-router.post('/cars');
+  constructor() {
+    this.router = Router();
+  }
 
-export default router;
+  public addRoute(
+    controller: MongoController<T>,
+    route: string = controller.route,
+  ) {
+    this.router.post(route, controller.create);
+  }
+}
+
+export default CustomRouter;
