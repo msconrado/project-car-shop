@@ -15,7 +15,7 @@ const carSchema = new Schema<CarDocument>({
 });
 
 class CarModel extends MongoModel<Car> {
-  constructor(model = MModel('Cars', carSchema)) {
+  constructor(protected model = MModel('Cars', carSchema)) {
     super(model);
   }
 }
