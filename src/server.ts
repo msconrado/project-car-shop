@@ -1,7 +1,7 @@
 import { Car } from './interfaces/CarInterface';
 import CustomRouter from './routes/route';
 import App from './app';
-import CarController from './controllers/CarController';
+import CarController from './controllers/CarControllers';
 
 const server = new App();
 

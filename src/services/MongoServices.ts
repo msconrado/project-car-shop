@@ -1,7 +1,7 @@
-import MongoModel from '../models/MongoModel';
+import MongoModels from '../models/MongoModels';
 
-class MongoService<T> {
-  constructor(protected model: MongoModel<T>) {}
+class MongoServices<T> {
+  constructor(protected model: MongoModels<T>) {}
 
   public async create(obj: T): Promise<T> {
     const car = await this.model.create(obj);
@@ -9,4 +9,4 @@ class MongoService<T> {
   }
 }
 
-export default MongoService;
+export default MongoServices;

@@ -1,13 +1,13 @@
 import { ZodError } from 'zod';
 import { Response } from 'express';
-import MongoController, {
+import MongoControllers, {
   RequestWithBody,
   ResponseError,
-} from './MongoController';
+} from './MongoControllers';
 import CarServices from '../services/CarServices';
 import CarSchema, { Car as ICar } from '../interfaces/CarInterface';
 
-class CarController extends MongoController<ICar> {
+class CarControllers extends MongoControllers<ICar> {
   constructor(protected service = new CarServices()) {
     super(service, '/cars');
   }
@@ -33,4 +33,4 @@ class CarController extends MongoController<ICar> {
   };
 }
 
-export default CarController;
+export default CarControllers;

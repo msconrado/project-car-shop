@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import MongoController from '../controllers/MongoController';
+import MongoController from '../controllers/MongoControllers';
 
 class CustomRouter<T> {
   public router: Router;

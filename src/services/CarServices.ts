@@ -1,9 +1,9 @@
 import { Car as ICar } from '../interfaces/CarInterface';
-import CarModel from '../models/CarModel';
-import MongoService from './MongoServices';
+import CarModel from '../models/CarModels';
+import MongoServices from './MongoServices';
 
-class CarServices extends MongoService<ICar> {
-  constructor(protected model = new CarModel()) {
+class CarServices extends MongoServices<ICar> {
+  constructor(public model = new CarModel()) {
     super(model);
   }
 }

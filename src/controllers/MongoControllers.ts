@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ControllerErrors from '../enum/erros';
-import MongoService from '../services/MongoServices';
+import MongoServices from '../services/MongoServices';
 
 export type ResponseError = {
   error: unknown;
@@ -10,10 +10,10 @@ export interface RequestWithBody<T> extends Request {
   body: T;
 }
 
-class MongoController<T> {
+class MongoControllers<T> {
   protected errors = ControllerErrors;
 
-  constructor(protected service: MongoService<T>, public route: string) { }
+  constructor(protected service: MongoServices<T>, public route: string) { }
 
   public create = async (
     req: RequestWithBody<T>,
@@ -31,4 +31,4 @@ class MongoController<T> {
   };
 }
 
-export default MongoController;
+export default MongoControllers;

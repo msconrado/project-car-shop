@@ -1,7 +1,7 @@
 import { Model as MModel, Document } from 'mongoose';
 import { Model as IModel } from '../interfaces/ModelInterface';
 
-class MongoModel<T> implements IModel<T> {
+class MongoModels<T> implements IModel<T> {
   constructor(protected model: MModel<T & Document>) {}
 
   create = async (obj: T): Promise<T> => this.model.create({ ...obj });
@@ -18,4 +18,4 @@ class MongoModel<T> implements IModel<T> {
     this.model.findOneAndDelete({ _id: id });
 }
 
-export default MongoModel;
+export default MongoModels;

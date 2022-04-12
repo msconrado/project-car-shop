@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
-import CarModel from '../../../models/CarModel';
-import { carMock } from './carMock';
+import CarModels from '../../../models/CarModels';
+import { carCreateMock } from '../mocks/carMocks';
+
 describe('Car Models', () => {
-  let carModel = new CarModel();
+  let carModels = new CarModels();
 
   describe('Create', () => {
     before(() => {
-      Sinon.stub(carModel.model, 'create').resolves(carMock);
+      Sinon.stub(carModels.model, 'create').resolves(carCreateMock);
     });
 
     after(() => {
@@ -15,8 +16,8 @@ describe('Car Models', () => {
     });
 
     it('deve retornar um objeto de Car', async () => {
-      const car = await carModel.create(carMock);
-      expect(car).to.deep.equal(carMock);
+      const car = await carModels.create(carCreateMock);
+      expect(car).to.deep.equal(carCreateMock);
     });
   });
 });
