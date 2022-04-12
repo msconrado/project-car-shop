@@ -1,8 +1,8 @@
 import { Document, Schema, model as MModel } from 'mongoose';
-import { Car } from '../interfaces/CarInterface';
+import { Car as ICar } from '../interfaces/CarInterface';
 import MongoModel from './MongoModel';
 
-interface CarDocument extends Car, Document {}
+interface CarDocument extends ICar, Document {}
 
 const carSchema = new Schema<CarDocument>({
   model: { type: String, required: true },
@@ -14,7 +14,7 @@ const carSchema = new Schema<CarDocument>({
   seatsQty: { type: Number, required: true },
 });
 
-class CarModel extends MongoModel<Car> {
+class CarModel extends MongoModel<ICar> {
   constructor(protected model = MModel('Cars', carSchema)) {
     super(model);
   }
