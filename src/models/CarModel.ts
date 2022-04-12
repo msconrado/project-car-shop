@@ -15,7 +15,7 @@ const carSchema = new Schema<CarDocument>({
 });
 
 class CarModel extends MongoModel<ICar> {
-  constructor(protected model = MModel('Cars', carSchema)) {
+  constructor(public model = MModel('Cars', carSchema)) {
     super(model);
   }
 }
