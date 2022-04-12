@@ -1,7 +1,6 @@
 import Sinon from 'sinon';
 import { carCreateMock } from './../mocks/carMocks';
 import { expect } from 'chai';
-// import mongoose from 'mongoose';
 
 import CarServices from "../../../services/CarServices";
 
