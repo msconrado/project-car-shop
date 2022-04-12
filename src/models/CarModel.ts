@@ -1,4 +1,4 @@
-import { Document, Schema, model as M } from 'mongoose';
+import { Document, Schema, model as MModel } from 'mongoose';
 import { Car } from '../interfaces/CarInterface';
 import MongoModel from './MongoModel';
 
@@ -15,7 +15,7 @@ const carSchema = new Schema<CarDocument>({
 });
 
 class CarModel extends MongoModel<Car> {
-  constructor(model = M('Cars', carSchema)) {
+  constructor(model = MModel('Cars', carSchema)) {
     super(model);
   }
 }
