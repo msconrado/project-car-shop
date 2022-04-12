@@ -14,7 +14,7 @@ describe('Car Controllers, rota /cars', () => {
 
   let carModels = new CarModels();
 
-  describe('Create', () => {
+  describe('Create sucesso', () => {
     before(async () => {
       sinon.stub(carModels.model, 'create').resolves(carIdCreateMock);
     });
@@ -30,6 +30,23 @@ describe('Car Controllers, rota /cars', () => {
         .send(carCreateMock);
 
       expect(response.body).to.deep.equal(carIdCreateMock);
+    });
+  });
+
+  describe('Create falid', () => {
+    before(async () => {
+      sinon.stub(carModels.model, 'create').resolves(carIdCreateMock);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+
+    it('deve retornar um error', async () => {
+      const response = await chai.request(app).post('/cars').send({});
+
+      expect(response.status).to.deep.equal(400);
+      expect(response.body.error.model[0]).to.deep.equal('Required');
     });
   });
 });
