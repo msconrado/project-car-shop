@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 import ControllerErrors from '../enum/erros';
 import MongoServices from '../services/MongoServices';
 
@@ -13,12 +14,29 @@ export interface RequestWithBody<T> extends Request {
 abstract class MongoControllers<T> {
   protected errors = ControllerErrors;
 
-  constructor(protected service: MongoServices<T>, public route: string) { }
+  constructor(protected service: MongoServices<T>, public route: string) {}
 
   abstract create(
     req: RequestWithBody<T>,
-    res: Response<T | ResponseError>,
+    res: Response<T | ResponseError>
   ): Promise<typeof res>;
+
+  read = async (
+    _req: Request,
+    res: Response<T[] | ResponseError>,
+  ): Promise<typeof res> => {
+    try {
+      const cars = await this.service.read();
+
+      return res.json(cars);
+    } catch (err) {
+      if (err instanceof ZodError) {
+        return res.status(400).json({ error: err.flatten().fieldErrors });
+      }
+
+      return res.status(500).json({ error: this.errors.internal });
+    }
+  };
 }
 
 export default MongoControllers;

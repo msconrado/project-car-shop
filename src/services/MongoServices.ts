@@ -7,6 +7,11 @@ abstract class MongoServices<T> {
     const car = await this.model.create(obj);
     return car;
   }
+
+  public async read(): Promise<T[]> {
+    const cars = await this.model.read();
+    return cars;
+  }
 }
 
 export default MongoServices;
