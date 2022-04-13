@@ -3,17 +3,7 @@ import { carIdCreateMock } from '../mocks/carMocks';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import CarModels from '../../../models/CarModels';
-import { Car } from '../../../interfaces/CarInterface';
 
-interface CarId {
-  _id: string;
-  model: string;
-  year: number;
-  color: string;
-  buyValue: number;
-  seatsQty: number;
-  doorsQty: number;
-}
 describe('Car Models', () => {
   let carModels = new CarModels();
   describe('rota POST /cars', () => {

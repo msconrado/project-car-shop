@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { ZodError } from 'zod';
 import ControllerErrors from '../enum/erros';
 import MongoServices from '../services/MongoServices';
 
@@ -30,10 +29,6 @@ abstract class MongoControllers<T> {
 
       return res.json(cars);
     } catch (err) {
-      if (err instanceof ZodError) {
-        return res.status(400).json({ error: err.flatten().fieldErrors });
-      }
-
       return res.status(500).json({ error: this.errors.internal });
     }
   };
