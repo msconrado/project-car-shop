@@ -53,6 +53,32 @@ class CarControllers extends MongoControllers<ICar> {
       return res.status(500).json({ error: this.errors.internal });
     }
   };
+
+  update = async (
+    req: Request<{ id: string }>,
+    res: Response<ICar | ResponseError>,
+  ): Promise<typeof res> => {
+    try {
+      const { params: { id }, body } = req;
+
+      if (id.length < 24) {
+        return res.status(400).json({ error: this.errors.idMust });
+      }
+
+      CarSchema.parse(body);
+
+      const car = await this.service.update({ id, body });
+
+      return car ? res.status(200).json(car)
+        : res.status(404).json({ error: this.errors.notFound });
+    } catch (err) {
+      if (err instanceof ZodError) {
+        return res.status(400).json({ error: err.flatten().fieldErrors });
+      }
+
+      return res.status(500).json({ error: this.errors.internal });
+    }
+  };
 }
 
 export default CarControllers;

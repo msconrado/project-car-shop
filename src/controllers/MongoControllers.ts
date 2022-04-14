@@ -34,8 +34,13 @@ abstract class MongoControllers<T> {
   };
 
   abstract readOne(
-    req: Request<{ id: string; }>,
-    res: Response<T | ResponseError>
+    req: Request<{ id: string }>,
+    res: Response<T | ResponseError>,
+  ): Promise<typeof res>;
+
+  abstract update(
+    req: Request<{ id: string }>,
+    res: Response<T | ResponseError>,
   ): Promise<typeof res>;
 }
 
