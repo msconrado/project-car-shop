@@ -17,7 +17,7 @@ abstract class MongoControllers<T> {
 
   abstract create(
     req: RequestWithBody<T>,
-    res: Response<T | ResponseError>
+    res: Response<T | ResponseError>,
   ): Promise<typeof res>;
 
   read = async (
@@ -39,6 +39,11 @@ abstract class MongoControllers<T> {
   ): Promise<typeof res>;
 
   abstract update(
+    req: Request<{ id: string }>,
+    res: Response<T | ResponseError>,
+  ): Promise<typeof res>;
+
+  abstract delete(
     req: Request<{ id: string }>,
     res: Response<T | ResponseError>,
   ): Promise<typeof res>;
