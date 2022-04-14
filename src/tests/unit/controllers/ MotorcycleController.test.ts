@@ -3,6 +3,7 @@ import {
   idInvalid,
   motorcycleCreateMock,
   motorcycleIdCreateMock,
+  motorcycleIdUpdateMock,
 } from '../mocks/motorcycleMocks';
 import * as sinon from 'sinon';
 import chai from 'chai';
@@ -148,6 +149,103 @@ describe('Motorcycle Controllers', () => {
           expect(response.status).to.deep.equal(500);
           expect(response.body).to.be.an('object');
           expect(response.body.error).to.deep.equal('Internal Server Error');
+        });
+      });
+    });
+  });
+
+  describe('rota PUT /motorcycles/:id', () => {
+    describe('UPDATE', () => {
+      describe('sucesso', () => {
+        before(async () => {
+          sinon
+            .stub(motorcycleModels.model, 'findByIdAndUpdate')
+            .resolves(motorcycleIdUpdateMock as any);
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar um objeto com os dados atualizados do moto daquele respectivo id', async () => {
+          const response = await chai
+            .request(app)
+            .put(`/motorcycles/${id}`)
+            .send(motorcycleIdUpdateMock);
+          expect(response.status).to.deep.equal(200);
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.deep.equal(motorcycleIdUpdateMock);
+        });
+      });
+
+      describe('error" Object not found" e "Id must have 24 hexadecimal characters', () => {
+        before(async () => {
+          sinon.stub(motorcycleModels.model, 'findByIdAndUpdate').resolves();
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar a mensagem de error "Object not found"', async () => {
+          const response = await chai
+            .request(app)
+            .put(`/motorcycles/${idInvalid}`)
+            .send(motorcycleIdUpdateMock);
+          expect(response.status).to.deep.equal(404);
+          expect(response.body).to.be.an('object');
+          expect(response.body.error).to.deep.equal('Object not found');
+        });
+
+        it('deve retornar a mensagem de error "Id must have 24 hexadecimal characters"', async () => {
+          const response = await chai
+            .request(app)
+            .put('/motorcycles/6255')
+            .send(motorcycleIdUpdateMock);
+          expect(response.status).to.deep.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.error).to.deep.equal(
+            'Id must have 24 hexadecimal characters'
+          );
+        });
+      });
+
+      describe('error "Server"', () => {
+        before(async () => {
+          sinon.stub(motorcycleModels.model, 'findByIdAndUpdate').throws();
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar o error "Internal Server Error"', async () => {
+          const response = await chai
+            .request(app)
+            .put(`/motorcycles/${id}`)
+            .send(motorcycleIdUpdateMock);
+          expect(response.status).to.deep.equal(500);
+          expect(response.body).to.be.an('object');
+          expect(response.body.error).to.deep.equal('Internal Server Error');
+        });
+      });
+      describe('error "Required"', () => {
+        before(async () => {
+          sinon.stub(motorcycleModels.model, 'findByIdAndUpdate').resolves();
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar o error { nomeChave: ["Required"] } ', async () => {
+          const response = await chai
+            .request(app)
+            .put(`/motorcycles/${id}`)
+            .send({});
+          expect(response.status).to.deep.equal(400);
+          expect(response.body).to.be.an('object');
+          expect(response.body.error.model[0]).to.deep.equal('Required');
         });
       });
     });

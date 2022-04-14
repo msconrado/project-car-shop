@@ -1,22 +1,32 @@
 export const motorcycleIdCreateMock = {
-  _id: '6255f38761dc2797fbbd5495',
-  model: 'Ferrari Maranello',
+  _id: "4edd40c86762e0fb12000003",
+  model: "Honda CG Titan 125",
   year: 1963,
-  color: 'red',
-  buyValue: 3500000,
-  category: 'Street',
-  engineCapacity: 200,
+  color: "red",
+  buyValue: 3500,
+  category: "Street",
+  engineCapacity: 125
 };
 
 export const motorcycleCreateMock = {
-  model: 'Ferrari Maranello',
+  model: "Honda CG Titan 125",
   year: 1963,
-  color: 'red',
-  buyValue: 3500000,
-  category: 'Street',
-  engineCapacity: 200,
+  color: "red",
+  buyValue: 3500,
+  category: "Street",
+  engineCapacity: 125
 };
 
-export const id = '6255f38761dc2797fbbd5495';
+export const motorcycleIdUpdateMock = {
+  _id: "4edd40c86762e0fb12000003",
+  model: "Shineray 50cc",
+  year: 2005,
+  color: "blue",
+  buyValue: 3500,
+  category: "Street",
+  engineCapacity: 25
+};
 
-export const idInvalid = '6255f38761dc2797fbbd5494';
+export const id = '4edd40c86762e0fb12000003';
+
+export const idInvalid = '4edd40c86762e0fb12000004';
