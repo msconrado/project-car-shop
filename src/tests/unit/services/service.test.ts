@@ -1,7 +1,10 @@
 import * as sinon from 'sinon';
 import {
   carIdCreateMock,
-  carIdFindMock
+  carIdFindMock,
+  carIdUpdateMock,
+  id,
+  idInvalid,
 } from './../mocks/carMocks';
 import { expect } from 'chai';
 
@@ -74,6 +77,40 @@ describe('Car Services', () => {
       it('deve retornar null', async () => {
         const car = await carServices.readOne('6255f38761dc2797fbbd5492');
         expect(car).to.be.null;
+      });
+    });
+  });
+
+  describe('rota PUT /cars/:id', () => {
+    describe('update quando existe o documento', () => {
+      before(async () => {
+        sinon.stub(carServices.model, 'update').resolves(carIdUpdateMock);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar um objeto com os dados atualizados do carro do id enviado', async () => {
+        const car = await carServices.update(id, carIdUpdateMock);
+        expect(car).to.be.an('object');
+        expect(car).to.deep.equal(carIdUpdateMock);
+      });
+    });
+
+    describe('update quando não existe o documento', () => {
+      before(async () => {
+        sinon.stub(carServices.model, 'update').resolves(null);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar null', async () => {
+        const car = await carServices.update(idInvalid, carIdUpdateMock);
+        expect(car).to.be.null;
+      });
     });
   });
 });
