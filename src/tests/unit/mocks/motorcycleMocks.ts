@@ -1,30 +1,30 @@
 export const motorcycleIdCreateMock = {
-  _id: "4edd40c86762e0fb12000003",
-  model: "Honda CG Titan 125",
+  _id: '4edd40c86762e0fb12000003',
+  model: 'Honda CG Titan 125',
   year: 1963,
-  color: "red",
+  color: 'red',
   buyValue: 3500,
-  category: "Street",
-  engineCapacity: 125
+  category: 'Street',
+  engineCapacity: 125,
 };
 
 export const motorcycleCreateMock = {
-  model: "Honda CG Titan 125",
+  model: 'Honda CG Titan 125',
   year: 1963,
-  color: "red",
+  color: 'red',
   buyValue: 3500,
-  category: "Street",
-  engineCapacity: 125
+  category: 'Street',
+  engineCapacity: 125,
 };
 
 export const motorcycleIdUpdateMock = {
-  _id: "4edd40c86762e0fb12000003",
-  model: "Shineray 50cc",
+  _id: '4edd40c86762e0fb12000003',
+  model: 'Shineray 50cc',
   year: 2005,
-  color: "blue",
+  color: 'blue',
   buyValue: 3500,
-  category: "Street",
-  engineCapacity: 25
+  category: 'Street',
+  engineCapacity: 25,
 };
 
 export const id = '4edd40c86762e0fb12000003';

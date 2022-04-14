@@ -11,6 +11,7 @@ import chai from 'chai';
 import chaiHttp = require('chai-http');
 import server from '../../../server';
 import CarModels from '../../../models/CarModels';
+import ControllerErrors from '../../../enum/erros';
 
 chai.use(chaiHttp);
 
@@ -37,9 +38,9 @@ describe('Car Controllers', () => {
             .request(app)
             .post('/cars')
             .send(carCreateMock);
-            expect(response.status).to.deep.equal(201);
-            expect(response.body).to.be.an('object');
-            expect(response.body).to.deep.equal(carIdCreateMock);
+          expect(response.status).to.deep.equal(201);
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.deep.equal(carIdCreateMock);
         });
       });
 
@@ -76,7 +77,7 @@ describe('Car Controllers', () => {
             .send(carCreateMock);
           expect(response.status).to.deep.equal(500);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Internal Server Error');
+          expect(response.body.error).to.deep.equal(ControllerErrors.internal);
         });
       });
     });
@@ -114,7 +115,7 @@ describe('Car Controllers', () => {
           const response = await chai.request(app).get('/cars');
           expect(response.status).to.deep.equal(500);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Internal Server Error');
+          expect(response.body.error).to.deep.equal(ControllerErrors.internal);
         });
       });
     });
@@ -154,16 +155,14 @@ describe('Car Controllers', () => {
           const response = await chai.request(app).get(`/cars/${idInvalid}`);
           expect(response.status).to.deep.equal(404);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Object not found');
+          expect(response.body.error).to.deep.equal(ControllerErrors.notFound);
         });
 
         it('deve retornar a mensagem de error "Id must have 24 hexadecimal characters"', async () => {
           const response = await chai.request(app).get('/cars/6255');
           expect(response.status).to.deep.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal(
-            'Id must have 24 hexadecimal characters'
-          );
+          expect(response.body.error).to.deep.equal(ControllerErrors.idMust);
         });
       });
 
@@ -180,7 +179,7 @@ describe('Car Controllers', () => {
           const response = await chai.request(app).get(`/cars/${id}`);
           expect(response.status).to.deep.equal(500);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Internal Server Error');
+          expect(response.body.error).to.deep.equal(ControllerErrors.internal);
         });
       });
     });
@@ -226,7 +225,7 @@ describe('Car Controllers', () => {
             .send(carIdUpdateMock);
           expect(response.status).to.deep.equal(404);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Object not found');
+          expect(response.body.error).to.deep.equal(ControllerErrors.notFound);
         });
 
         it('deve retornar a mensagem de error "Id must have 24 hexadecimal characters"', async () => {
@@ -236,9 +235,7 @@ describe('Car Controllers', () => {
             .send(carIdUpdateMock);
           expect(response.status).to.deep.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal(
-            'Id must have 24 hexadecimal characters'
-          );
+          expect(response.body.error).to.deep.equal(ControllerErrors.idMust);
         });
       });
 
@@ -258,7 +255,7 @@ describe('Car Controllers', () => {
             .send(carIdUpdateMock);
           expect(response.status).to.deep.equal(500);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Internal Server Error');
+          expect(response.body.error).to.deep.equal(ControllerErrors.internal);
         });
       });
       describe('error "Required"', () => {
@@ -314,16 +311,14 @@ describe('Car Controllers', () => {
           const response = await chai.request(app).delete(`/cars/${idInvalid}`);
           expect(response.status).to.deep.equal(404);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Object not found');
+          expect(response.body.error).to.deep.equal(ControllerErrors.notFound);
         });
 
         it('deve retornar a mensagem de error "Id must have 24 hexadecimal characters"', async () => {
           const response = await chai.request(app).delete('/cars/6255');
           expect(response.status).to.deep.equal(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal(
-            'Id must have 24 hexadecimal characters'
-          );
+          expect(response.body.error).to.deep.equal(ControllerErrors.idMust);
         });
       });
 
@@ -340,7 +335,7 @@ describe('Car Controllers', () => {
           const response = await chai.request(app).delete(`/cars/${id}`);
           expect(response.status).to.deep.equal(500);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.deep.equal('Internal Server Error');
+          expect(response.body.error).to.deep.equal(ControllerErrors.internal);
         });
       });
     });
