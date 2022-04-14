@@ -2,6 +2,9 @@ import {
   carCreateMock,
   carIdCreateMock,
   carIdFindMock,
+  carIdUpdateMock,
+  id,
+  idInvalid,
 } from './../mocks/carMocks';
 import * as sinon from 'sinon';
 import chai from 'chai';
@@ -121,10 +124,8 @@ describe('Car Controllers', () => {
         sinon.restore();
       });
 
-      it('deve retornar um objeto com os dados do carro do id enviado', async () => {
-        const response = await chai
-          .request(app)
-          .get('/cars/6255f38761dc2797fbbd5495');
+      it('deve retornar um objeto com os dados do carro daquele respectivo id', async () => {
+        const response = await chai.request(app).get(`/cars/${id}`);
         expect(response.body).to.be.an('object');
         expect(response.body).to.deep.equal(carIdCreateMock);
       });
@@ -140,9 +141,7 @@ describe('Car Controllers', () => {
       });
 
       it('deve retornar a mensagem de error "Object not found"', async () => {
-        const response = await chai
-          .request(app)
-          .get('/cars/6255f38761dc2797fbbd5496');
+        const response = await chai.request(app).get(`/cars/${idInvalid}`);
         expect(response.status).to.deep.equal(404);
         expect(response.body).to.be.an('object');
         expect(response.body.error).to.deep.equal('Object not found');
@@ -168,12 +167,101 @@ describe('Car Controllers', () => {
       });
 
       it('deve retornar o error "Internal Server Error"', async () => {
-        const response = await chai
-          .request(app)
-          .get('/cars/6255f38761dc2797fbbd5495');
+        const response = await chai.request(app).get(`/cars/${id}`);
         expect(response.status).to.deep.equal(500);
         expect(response.body).to.be.an('object');
         expect(response.body.error).to.deep.equal('Internal Server Error');
+      });
+    });
+  });
+
+  describe('rota PUT /cars/:id', () => {
+    describe('update sucesso', () => {
+      before(async () => {
+        sinon
+          .stub(carModels.model, 'findByIdAndUpdate')
+          .resolves(carIdUpdateMock as any);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar um objeto com os dados atualizados do carro daquele respectivo id', async () => {
+        const response = await chai
+          .request(app)
+          .put(`/cars/${id}`)
+          .send(carIdUpdateMock);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.deep.equal(carIdUpdateMock);
+      });
+    });
+
+    describe('update error" Object not found" e "Id must have 24 hexadecimal characters', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'findByIdAndUpdate').resolves();
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar a mensagem de error "Object not found"', async () => {
+        const response = await chai
+          .request(app)
+          .put(`/cars/${idInvalid}`)
+          .send(carIdUpdateMock);
+        expect(response.status).to.deep.equal(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error).to.deep.equal('Object not found');
+      });
+
+      it('deve retornar a mensagem de error "Id must have 24 hexadecimal characters"', async () => {
+        const response = await chai
+          .request(app)
+          .put('/cars/6255')
+          .send(carIdUpdateMock);
+        expect(response.status).to.deep.equal(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error).to.deep.equal(
+          'Id must have 24 hexadecimal characters'
+        );
+      });
+    });
+
+    describe('update error "Server"', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'findByIdAndUpdate').throws();
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar o error "Internal Server Error"', async () => {
+        const response = await chai
+          .request(app)
+          .put(`/cars/${id}`)
+          .send(carIdUpdateMock);
+        expect(response.status).to.deep.equal(500);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error).to.deep.equal('Internal Server Error');
+      });
+    });
+    describe('update error "Required"', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'findByIdAndUpdate').resolves();
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar o error { nomeChave: ["Required"] } ', async () => {
+        const response = await chai.request(app).put(`/cars/${id}`).send({});
+        expect(response.status).to.deep.equal(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error.model[0]).to.deep.equal('Required');
       });
     });
   });

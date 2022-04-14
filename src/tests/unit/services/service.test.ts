@@ -58,7 +58,7 @@ describe('Car Services', () => {
         sinon.restore();
       });
 
-      it('deve retornar um objeto com os dados do carro do id enviado', async () => {
+      it('deve retornar um objeto com os dados do carro daquele respectivo id', async () => {
         const car = await carServices.readOne('6255f38761dc2797fbbd5495');
         expect(car).to.be.an('object');
         expect(car).to.deep.equal(carIdCreateMock);
@@ -91,7 +91,7 @@ describe('Car Services', () => {
         sinon.restore();
       });
 
-      it('deve retornar um objeto com os dados atualizados do carro do id enviado', async () => {
+      it('deve retornar um objeto com os dados atualizados do carro daquele respectivo id', async () => {
         const car = await carServices.update(id, carIdUpdateMock);
         expect(car).to.be.an('object');
         expect(car).to.deep.equal(carIdUpdateMock);
