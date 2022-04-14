@@ -16,3 +16,7 @@ export const motorcycleCreateMock = {
   category: 'Street',
   engineCapacity: 200,
 };
+
+export const id = '6255f38761dc2797fbbd5495';
+
+export const idInvalid = '6255f38761dc2797fbbd5494';
