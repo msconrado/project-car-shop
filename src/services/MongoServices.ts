@@ -22,5 +22,10 @@ abstract class MongoServices<T> {
     const car = await this.model.update(id, obj);
     return car;
   }
+
+  public async delete(id: string): Promise<T | null> {
+    const car = await this.model.delete(id);
+    return car;
+  }
 }
 export default MongoServices;

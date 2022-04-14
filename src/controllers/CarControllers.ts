@@ -82,7 +82,7 @@ class CarControllers extends MongoControllers<ICar> {
 
   delete = async (
     req: Request<{ id: string }>,
-    res: Response<ICar | ResponseError>,
+    res: Response<object | ResponseError>,
   ): Promise<typeof res> => {
     try {
       const { id } = req.params;
@@ -94,7 +94,7 @@ class CarControllers extends MongoControllers<ICar> {
       const car = await this.service.delete(id);
 
       return car
-        ? res.status(204).end()
+        ? res.status(204).json({})
         : res.status(404).json({ error: this.errors.notFound });
     } catch (error) {
       return res.status(500).json({ error: this.errors.internal });
