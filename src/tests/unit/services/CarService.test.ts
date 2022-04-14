@@ -5,7 +5,7 @@ import {
   carIdUpdateMock,
   id,
   idInvalid,
-} from './../mocks/carMocks';
+} from '../mocks/carMocks';
 import { expect } from 'chai';
 
 import CarServices from '../../../services/CarServices';
