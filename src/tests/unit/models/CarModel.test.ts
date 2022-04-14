@@ -1,4 +1,9 @@
-import { carIdFindMock } from './../mocks/carMocks';
+import {
+  carIdFindMock,
+  carIdUpdateMock,
+  id,
+  idInvalid,
+} from './../mocks/carMocks';
 import { carIdCreateMock } from '../mocks/carMocks';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
@@ -53,9 +58,9 @@ describe('Car Models', () => {
       });
 
       it('deve retornar um objeto com os dados do carro do id enviado', async () => {
-        const cars = await carModels.readOne('6255f38761dc2797fbbd5495');
-        expect(cars).to.be.an('object');
-        expect(cars).to.deep.equal(carIdCreateMock);
+        const car = await carModels.readOne(id);
+        expect(car).to.be.an('object');
+        expect(car).to.deep.equal(carIdCreateMock);
       });
     });
 
@@ -69,8 +74,43 @@ describe('Car Models', () => {
       });
 
       it('deve retornar null', async () => {
-        const cars = await carModels.readOne('6255f38761dc2797fbbd5492');
-        expect(cars).to.be.null;
+        const car = await carModels.readOne(idInvalid);
+        expect(car).to.be.null;
+      });
+    });
+  });
+
+  describe('rota PUT /cars/:id', () => {
+    describe('update, quando existe o documento', () => {
+      before(async () => {
+        sinon
+          .stub(carModels.model, 'findByIdAndUpdate')
+          .resolves(carIdUpdateMock as any);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar um objeto com os dados atualizados do carro do id enviado', async () => {
+        const car = await carModels.update(id, carIdUpdateMock);
+        expect(car).to.be.an('object');
+        expect(car).to.deep.equal(carIdUpdateMock);
+      });
+    });
+
+    describe('update, quando não existe o documento', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'findByIdAndUpdate').resolves(null);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar null', async () => {
+        const car = await carModels.update(idInvalid, carIdUpdateMock);
+        expect(car).to.be.null;
       });
     });
   });

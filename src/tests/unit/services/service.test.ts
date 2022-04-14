@@ -1,5 +1,8 @@
 import * as sinon from 'sinon';
-import { carIdCreateMock, carIdFindMock } from './../mocks/carMocks';
+import {
+  carIdCreateMock,
+  carIdFindMock
+} from './../mocks/carMocks';
 import { expect } from 'chai';
 
 import CarServices from '../../../services/CarServices';
@@ -58,19 +61,19 @@ describe('Car Services', () => {
         expect(car).to.deep.equal(carIdCreateMock);
       });
     });
-  });
-  describe('readOne quando não existe o documento', () => {
-    before(async () => {
-      sinon.stub(carServices.model, 'readOne').resolves(null);
-    });
 
-    after(() => {
-      sinon.restore();
-    });
+    describe('readOne quando não existe o documento', () => {
+      before(async () => {
+        sinon.stub(carServices.model, 'readOne').resolves(null);
+      });
 
-    it('deve retornar um objeto de Car', async () => {
-      const car = await carServices.readOne('6255f38761dc2797fbbd5492');
-      expect(car).to.be.null;
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar null', async () => {
+        const car = await carServices.readOne('6255f38761dc2797fbbd5492');
+        expect(car).to.be.null;
     });
   });
 });
