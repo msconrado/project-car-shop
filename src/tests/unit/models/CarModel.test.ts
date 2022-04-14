@@ -114,4 +114,39 @@ describe('Car Models', () => {
       });
     });
   });
+
+  describe('rota DELETE /cars/:id', () => {
+    describe('delete, quando existe o documento', () => {
+      before(async () => {
+        sinon
+          .stub(carModels.model, 'findOneAndDelete')
+          .resolves(carIdCreateMock as any);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar um objeto do carro deletado', async () => {
+        const car = await carModels.delete(id);
+        expect(car).to.be.an('object');
+        expect(car).to.deep.equal(carIdCreateMock);
+      });
+    });
+
+    describe('delete, quando não existe o documento', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'findOneAndDelete').resolves(null);
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar null', async () => {
+        const car = await carModels.delete(idInvalid);
+        expect(car).to.be.null;
+      });
+    });
+  });
 });
