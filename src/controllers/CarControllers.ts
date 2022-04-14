@@ -67,7 +67,7 @@ class CarControllers extends MongoControllers<ICar> {
 
       CarSchema.parse(body);
 
-      const car = await this.service.update({ id, body });
+      const car = await this.service.update(id, body);
 
       return car ? res.status(200).json(car)
         : res.status(404).json({ error: this.errors.notFound });

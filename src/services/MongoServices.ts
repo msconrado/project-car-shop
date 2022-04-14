@@ -13,10 +13,14 @@ abstract class MongoServices<T> {
     return cars;
   }
 
-  public async readOne(id: string): Promise<T | null > {
+  public async readOne(id: string): Promise<T | null> {
     const car = await this.model.readOne(id);
     return car;
   }
-}
 
+  public async update(id: string, obj: T): Promise<T | null> {
+    const car = await this.model.update(id, obj);
+    return car;
+  }
+}
 export default MongoServices;
