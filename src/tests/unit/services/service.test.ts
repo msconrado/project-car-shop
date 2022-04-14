@@ -13,136 +13,146 @@ import CarServices from '../../../services/CarServices';
 describe('Car Services', () => {
   let carServices = new CarServices();
   describe('rota POST /cars', () => {
-    describe('create', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'create').resolves(carIdCreateMock);
-      });
+    describe('CREATE', () => {
+      describe('sucesso', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'create').resolves(carIdCreateMock);
+        });
 
-      after(() => {
-        sinon.restore();
-      });
+        after(() => {
+          sinon.restore();
+        });
 
-      it('deve retornar um objeto com os dados do carro criado', async () => {
-        const car = await carServices.create(carIdCreateMock);
-        expect(car).to.be.an('object');
-        expect(car).to.deep.equal(carIdCreateMock);
+        it('deve retornar um objeto com os dados do carro criado', async () => {
+          const car = await carServices.create(carIdCreateMock);
+          expect(car).to.be.an('object');
+          expect(car).to.deep.equal(carIdCreateMock);
+        });
       });
     });
   });
 
   describe('rota GET /cars', () => {
-    describe('read', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'read').resolves(carIdFindMock);
-      });
+    describe('READ', () => {
+      describe('sucesso', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'read').resolves(carIdFindMock);
+        });
 
-      after(() => {
-        sinon.restore();
-      });
+        after(() => {
+          sinon.restore();
+        });
 
-      it('deve retornar um array com todos os carros no BD', async () => {
-        const car = await carServices.read();
-        expect(car).to.be.an('array');
-        expect(car).to.deep.equal(carIdFindMock);
+        it('deve retornar um array com todos os carros no BD', async () => {
+          const car = await carServices.read();
+          expect(car).to.be.an('array');
+          expect(car).to.deep.equal(carIdFindMock);
+        });
       });
     });
   });
 
   describe('rota GET /cars/:id', () => {
-    describe('readOne quando existe o documento', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'readOne').resolves(carIdCreateMock);
+    describe('READONE', () => {
+      describe('quando existe o documento', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'readOne').resolves(carIdCreateMock);
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar um objeto com os dados do carro daquele respectivo id', async () => {
+          const car = await carServices.readOne(id);
+          expect(car).to.be.an('object');
+          expect(car).to.deep.equal(carIdCreateMock);
+        });
       });
 
-      after(() => {
-        sinon.restore();
-      });
+      describe('quando não existe o documento', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'readOne').resolves(null);
+        });
 
-      it('deve retornar um objeto com os dados do carro daquele respectivo id', async () => {
-        const car = await carServices.readOne('6255f38761dc2797fbbd5495');
-        expect(car).to.be.an('object');
-        expect(car).to.deep.equal(carIdCreateMock);
-      });
-    });
+        after(() => {
+          sinon.restore();
+        });
 
-    describe('readOne quando não existe o documento', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'readOne').resolves(null);
-      });
-
-      after(() => {
-        sinon.restore();
-      });
-
-      it('deve retornar null', async () => {
-        const car = await carServices.readOne('6255f38761dc2797fbbd5492');
-        expect(car).to.be.null;
+        it('deve retornar null', async () => {
+          const car = await carServices.readOne(idInvalid);
+          expect(car).to.be.null;
+        });
       });
     });
   });
 
   describe('rota PUT /cars/:id', () => {
-    describe('update quando existe o documento', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'update').resolves(carIdUpdateMock);
+    describe('UPDATE', () => {
+      describe('quando existe o documento', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'update').resolves(carIdUpdateMock);
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar um objeto com os dados atualizados do carro daquele respectivo id', async () => {
+          const car = await carServices.update(id, carIdUpdateMock);
+          expect(car).to.be.an('object');
+          expect(car).to.deep.equal(carIdUpdateMock);
+        });
       });
 
-      after(() => {
-        sinon.restore();
-      });
+      describe('quando não existe o documento', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'update').resolves(null);
+        });
 
-      it('deve retornar um objeto com os dados atualizados do carro daquele respectivo id', async () => {
-        const car = await carServices.update(id, carIdUpdateMock);
-        expect(car).to.be.an('object');
-        expect(car).to.deep.equal(carIdUpdateMock);
-      });
-    });
+        after(() => {
+          sinon.restore();
+        });
 
-    describe('update quando não existe o documento', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'update').resolves(null);
-      });
-
-      after(() => {
-        sinon.restore();
-      });
-
-      it('deve retornar null', async () => {
-        const car = await carServices.update(idInvalid, carIdUpdateMock);
-        expect(car).to.be.null;
+        it('deve retornar null', async () => {
+          const car = await carServices.update(idInvalid, carIdUpdateMock);
+          expect(car).to.be.null;
+        });
       });
     });
   });
 
   describe('rota DELETE /cars/:id', () => {
-    describe('delete, quando existe o documento', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'delete').resolves(carIdCreateMock);
+    describe('DELETE', () => {
+      describe('quando existe o documento', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'delete').resolves(carIdCreateMock);
+        });
+
+        after(() => {
+          sinon.restore();
+        });
+
+        it('deve retornar um objeto do carro deletado', async () => {
+          const car = await carServices.delete(id);
+          expect(car).to.be.an('object');
+          expect(car).to.deep.equal(carIdCreateMock);
+        });
       });
 
-      after(() => {
-        sinon.restore();
-      });
+      describe('quando não existe o documento', () => {
+        before(async () => {
+          sinon.stub(carServices.model, 'delete').resolves(null);
+        });
 
-      it('deve retornar um objeto do carro deletado', async () => {
-        const car = await carServices.delete(id);
-        expect(car).to.be.an('object');
-        expect(car).to.deep.equal(carIdCreateMock);
-      });
-    });
+        after(() => {
+          sinon.restore();
+        });
 
-    describe('delete, quando não existe o documento', () => {
-      before(async () => {
-        sinon.stub(carServices.model, 'delete').resolves(null);
-      });
-
-      after(() => {
-        sinon.restore();
-      });
-
-      it('deve retornar null', async () => {
-        const car = await carServices.delete(idInvalid);
-        expect(car).to.be.null;
+        it('deve retornar null', async () => {
+          const car = await carServices.delete(idInvalid);
+          expect(car).to.be.null;
+        });
       });
     });
   });
