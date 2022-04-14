@@ -40,7 +40,9 @@ class CarControllers extends MongoControllers<ICar> {
     try {
       const { id } = req.params;
 
-      if (id.length < 24) throw new Error();
+      if (id.length < 24) {
+        return res.status(400).json({ error: this.errors.idMust });
+      }
 
       const car = await this.service.readOne(id);
 
@@ -48,10 +50,6 @@ class CarControllers extends MongoControllers<ICar> {
         ? res.status(200).json(car)
         : res.status(404).json({ error: this.errors.notFound });
     } catch (err) {
-      if (err instanceof Error) {
-        return res.status(400).json({ error: this.errors.idMust });
-      }
-
       return res.status(500).json({ error: this.errors.internal });
     }
   };

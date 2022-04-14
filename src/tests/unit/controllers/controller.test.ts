@@ -38,7 +38,7 @@ describe('Car Controllers', () => {
       });
     });
 
-    describe('create error', () => {
+    describe('create error "Required"', () => {
       before(async () => {
         sinon.stub(carModels.model, 'create').resolves();
       });
@@ -47,11 +47,31 @@ describe('Car Controllers', () => {
         sinon.restore();
       });
 
-      it('deve retornar um error', async () => {
+      it('deve retornar o error { nomeChave: ["Required"] } ', async () => {
         const response = await chai.request(app).post('/cars').send({});
         expect(response.status).to.deep.equal(400);
         expect(response.body).to.be.an('object');
         expect(response.body.error.model[0]).to.deep.equal('Required');
+      });
+    });
+
+    describe('create error "Server"', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'create').throws();
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar o error "Internal Server Error"', async () => {
+        const response = await chai
+          .request(app)
+          .post('/cars')
+          .send(carCreateMock);
+        expect(response.status).to.deep.equal(500);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error).to.deep.equal('Internal Server Error');
       });
     });
   });
@@ -70,6 +90,23 @@ describe('Car Controllers', () => {
         const response = await chai.request(app).get('/cars');
         expect(response.body).to.be.an('array');
         expect(response.body).to.deep.equal(carIdFindMock);
+      });
+    });
+
+    describe('create error "Server"', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'find').throws();
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar o error "Internal Server Error"', async () => {
+        const response = await chai.request(app).get('/cars');
+        expect(response.status).to.deep.equal(500);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error).to.deep.equal('Internal Server Error');
       });
     });
   });
@@ -93,7 +130,7 @@ describe('Car Controllers', () => {
       });
     });
 
-    describe('findOne error', () => {
+    describe('findOne error" Object not found" e "Id must have 24 hexadecimal characters', () => {
       before(async () => {
         sinon.stub(carModels.model, 'findOne').resolves();
       });
@@ -118,6 +155,25 @@ describe('Car Controllers', () => {
         expect(response.body.error).to.deep.equal(
           'Id must have 24 hexadecimal characters'
         );
+      });
+    });
+
+    describe('findOne error "Server"', () => {
+      before(async () => {
+        sinon.stub(carModels.model, 'findOne').throws();
+      });
+
+      after(() => {
+        sinon.restore();
+      });
+
+      it('deve retornar o error "Internal Server Error"', async () => {
+        const response = await chai
+          .request(app)
+          .get('/cars/6255f38761dc2797fbbd5495');
+        expect(response.status).to.deep.equal(500);
+        expect(response.body).to.be.an('object');
+        expect(response.body.error).to.deep.equal('Internal Server Error');
       });
     });
   });
