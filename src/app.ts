@@ -12,7 +12,7 @@ class App {
   public startServer(PORT: string | number = 3001): void {
     connectToDatabase();
     this.app.listen(PORT, () =>
-      console.log(`Server running here 👉 http://localhost:${PORT}`));
+      console.log(`Server running here 👉 PORT: ${PORT}`));
   }
 
   public addRouter(router: Router) {
