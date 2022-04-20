@@ -1,5 +1,7 @@
 # Boas vindas ao repositório do projeto Car Shop!
+
 - Este projeto foi feito no bloco 30 do modulo de backend do curso de desenvolvimento Web da [Trybe](https://www.betrybe.com/)
+
 # Contexto
 
 - Estruturei uma API TypeScript na arquitetura MSC, aplicando os pilares de POO e utilizando o ODM Mongoose para se conectar com um banco de dados MongoDB.
@@ -24,17 +26,31 @@ Neste projeto, foi realizado:
 
 ## Instalando Dependências:
 
-  ```
-  npm install
-  ```
+```
+npm install
+```
+
 ---
+
+## Executando aplicação
+
+- Inicialize o projeto na sua maquina:
+  - `npm run dev`
+- rotas:
+  - http://localhost:3001/cars
+  - http://localhost:3001/motocycles
 
 ## Executando Testes
 
-* Para rodar os testes:
+- Para rodar os testes:
 
   `npm run test:dev`
 
-* Para ver a cobertura de testes:
+- Para ver a cobertura de testes:
 
   `npm run test:covarage`
+
+## Site da aplicação no ar
+
+- https://msconrado-car-shop.herokuapp.com/cars
+- https://msconrado-car-shop.herokuapp.com/motocycles
