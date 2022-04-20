@@ -53,4 +53,4 @@ npm install
 ## Site da aplicação no ar
 
 - https://msconrado-car-shop.herokuapp.com/cars
-- https://msconrado-car-shop.herokuapp.com/motocycles
+- https://msconrado-car-shop.herokuapp.com/motorcycles
